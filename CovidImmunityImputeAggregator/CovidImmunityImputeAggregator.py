@@ -37,7 +37,7 @@ for fp in os.listdir(path):
         if (not tabheaders == []):
             spot = tabheaders[-1]
             for i in range(1, len(csvlines)):
-                csvlines[i][int(spot)] = tablines[i][len(tabheaders) - 1]
+                csvlines[i][int(spot[1:])] = tablines[i][len(tabheaders) - 1]
 
             with open(fp, 'w') as out_file:
                 writer = csv.writer(out_file)
