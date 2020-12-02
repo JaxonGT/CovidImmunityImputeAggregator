@@ -21,23 +21,26 @@ for fp in os.listdir(path):
 
         for ofp in os.listdir(path):
             if (ofp.endswith('txt')):
-                tabs = csv.reader(open(ofp, 'r'), delimiter = '\t')
-                for idx,line in enumerate(tabs):
-                    if (idx == 0):
-                        tabheaders = line
-                    elif (not line):
-                        continue
-                    else:
-                        tablines.append(line)
+                with open(ofp, 'r') as file:
+                    tabs = csv.reader(file, delimiter = ' ')
+                    for idx,line in enumerate(tabs):
+                        line = list(filter(None, line))
+                        if (idx == 0):
+                            tabheaders = line
+                        elif (not line):
+                            continue
+                        else:
+                            tablines.append(line)
 
                 # there should only be one txt file, quit loop
+                os.remove(ofp)
                 break
 
         # replace column here and write the file back
         if (not tabheaders == []):
             spot = tabheaders[-1]
             for i in range(1, len(csvlines)):
-                csvlines[i][int(spot[1:])] = tablines[i][len(tabheaders) - 1]
+                csvlines[i][int(spot[1:])] = tablines[i][len(tabheaders)]
 
             with open(fp, 'w') as out_file:
                 writer = csv.writer(out_file)
@@ -62,7 +65,7 @@ for fp in os.listdir(path):
 
             with open('out\log.csv', 'w') as out_file:
                 writer = csv.writer(out_file)
-                writer.writerow((csvheaders[0], csvheaders[idx-1], csvheaders[idx]))
+                writer.writerow(('species', csvheaders[idx-1], csvheaders[idx]))
                 for k in range(len(csvlines)):
                     writer.writerow((csvlines[k][0], csvlines[k][idx-1], csvlines[k][idx]))
         else:
@@ -73,4 +76,4 @@ for fp in os.listdir(path):
         # there should only be one csv file, quit loop
         break
 
-print('done')
+print('Completed Run')
