@@ -60,10 +60,7 @@ for fp in os.listdir(path):
 
         # write new csv file somewhere
         if (not idx == 0):
-            if not os.path.exists('out'):
-                os.makedirs('out')
-
-            with open('out\log.csv', 'w') as out_file:
+            with open('zzOut.csv', 'w') as out_file:
                 writer = csv.writer(out_file)
                 writer.writerow(('species', csvheaders[idx-1], csvheaders[idx]))
                 for k in range(len(csvlines)):
