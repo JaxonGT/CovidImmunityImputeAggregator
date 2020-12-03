@@ -1,4 +1,4 @@
-import os, sys, csv
+import os, sys, csv, math
 
 path = '.'
 
@@ -58,13 +58,40 @@ for fp in os.listdir(path):
             if (not idx == 0):
                     break
 
-        # write new csv file somewhere
+        # check for argument
         if (not idx == 0):
+            nheaders = ['species']
+            nrows = []
+            numArg = 1
+
+            if (len(sys.argv) > 1):
+                numArg = int(sys.argv[1])
+                
+            tnum = math.ceil(idx / numArg)
+            for k in range(len(csvlines)):
+                trow = [csvlines[k][0]]
+
+                if (numArg > 1):
+                    for l in range(tnum, idx - 2, tnum):
+                        trow.append(csvlines[k][l])
+                        if (k == 0):
+                             nheaders.append(csvheaders[l])
+
+                trow.append(csvlines[k][idx-1])
+                trow.append(csvlines[k][idx])
+
+                # add the temp row to the main array
+                nrows.append(trow)
+
+            # append the headers to the main array
+            nheaders.append(csvheaders[idx-1])
+            nheaders.append(csvheaders[idx])
+
+            # write new csv file somewhere
             with open('zzOut.csv', 'w') as out_file:
                 writer = csv.writer(out_file)
-                writer.writerow(('species', csvheaders[idx-1], csvheaders[idx]))
-                for k in range(len(csvlines)):
-                    writer.writerow((csvlines[k][0], csvlines[k][idx-1], csvlines[k][idx]))
+                writer.writerow(nheaders)
+                writer.writerows(nrows)
         else:
             print('NO MORE UNKNOWNS')
             with open('out\log.csv', 'w') as out_file:
