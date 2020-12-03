@@ -65,14 +65,14 @@ for fp in os.listdir(path):
             numArg = 1
 
             try:
-                tnum = int(sys.argv[-1])
+                tArg = int(sys.argv[-1])
 
-                if (tnum >= 1):
-                    numArg = round(tnum, 0)
+                if (tArg >= 1):
+                    numArg = round(tArg, 0)
             except ValueError:
                 numArg = 1
                 
-            tnum = math.ceil(idx / numArg)
+            tnum = int(math.ceil(idx / numArg))
             for k in range(len(csvlines)):
                 trow = [csvlines[k][0]]
 
