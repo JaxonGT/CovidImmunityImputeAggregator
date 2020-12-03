@@ -64,8 +64,13 @@ for fp in os.listdir(path):
             nrows = []
             numArg = 1
 
-            if (len(sys.argv) > 1):
-                numArg = int(sys.argv[1])
+            try:
+                tnum = int(sys.argv[-1])
+
+                if (tnum >= 1):
+                    numArg = round(tnum, 0)
+            except ValueError:
+                numArg = 1
                 
             tnum = math.ceil(idx / numArg)
             for k in range(len(csvlines)):
