@@ -63,9 +63,15 @@ for fp in os.listdir(path):
             nheaders = ['species']
             nrows = []
             numArg = 1
+            grabPrevious = False
+
+            lastArg = sys.argv[-1]
+            if (lastArg.startswith("n")):
+                lastArg = lastArg[1:]
+                grabPrevious = True
 
             try:
-                tArg = int(sys.argv[-1])
+                tArg = int(lastArg)
 
                 if (tArg >= 1):
                     numArg = round(tArg, 0)
@@ -73,14 +79,20 @@ for fp in os.listdir(path):
                 numArg = 1
                 
             tnum = int(math.ceil(idx / numArg))
+
             for k in range(len(csvlines)):
                 trow = [csvlines[k][0]]
 
-                if (numArg > 1):
+                if (grabPrevious):
+                    for l in range(idx - numArg, idx - 1):
+                        trow.append(csvlines[k][l])
+                        if (k == 0):
+                                nheaders.append(csvheaders[l])
+                elif (numArg > 1):
                     for l in range(tnum, idx - 2, tnum):
                         trow.append(csvlines[k][l])
                         if (k == 0):
-                             nheaders.append(csvheaders[l])
+                                nheaders.append(csvheaders[l])
 
                 trow.append(csvlines[k][idx-1])
                 trow.append(csvlines[k][idx])
