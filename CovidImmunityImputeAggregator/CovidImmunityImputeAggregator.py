@@ -74,7 +74,7 @@ for fp in os.listdir(path):
                 tArg = int(lastArg)
 
                 if (tArg >= 1):
-                    numArg = round(tArg, 0)
+                    numArg = int(round(tArg, 0))
             except ValueError:
                 numArg = 1
                 
