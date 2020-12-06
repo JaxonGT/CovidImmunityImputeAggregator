@@ -1,8 +1,12 @@
 import os, sys, csv, math
 
 path = '.'
+outCSV = 'zzOUt.csv'
 
 for fp in os.listdir(path):
+    if (fp == outCSV):
+        continue
+
     if (fp.endswith('csv')):
         csvlines = []
         csvheaders = []
@@ -105,13 +109,13 @@ for fp in os.listdir(path):
             nheaders.append(csvheaders[idx])
 
             # write new csv file somewhere
-            with open('zzOut.csv', 'w') as out_file:
+            with open(outCSV, 'w') as out_file:
                 writer = csv.writer(out_file)
                 writer.writerow(nheaders)
                 writer.writerows(nrows)
         else:
             print('NO MORE UNKNOWNS')
-            with open('out\log.csv', 'w') as out_file:
+            with open(outCSV, 'w') as out_file:
                 writer = csv.writer(out_file)
 
         # there should only be one csv file, quit loop
